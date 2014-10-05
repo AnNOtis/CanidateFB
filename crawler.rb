@@ -18,9 +18,6 @@ def process(path)
 
   CSV.foreach(path) do |row|
     output = fetch_fb(*row)
-    puts "OUT: "
-    puts output
-    puts "...."
     output_csv << output
     delay()
   end
@@ -50,7 +47,7 @@ def fetch_fb(area, user, party, mystery_number)
     end
     puts result_groups
 
-    [area, user, party, fb_links]
+    [area, user, party] + fb_links
 end
 
 def delay
