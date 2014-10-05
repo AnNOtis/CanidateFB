@@ -4,7 +4,7 @@ require "CSV"
 require File.join(File.dirname(__FILE__), 'config')
 
 CATEGORY_FILTER = ['politician' , 'public figure' , 'news/media website']
-FILE_NAME = "直轄市長"
+FILE_NAME = "鄉鎮市長"
 INPUT_PATH = "data/#{FILE_NAME}.csv"
 OUTPUT_PATH = "data/fb_#{FILE_NAME}.csv"
 @graph = Koala::Facebook::API.new(ACCESS_TOKEN)
@@ -15,13 +15,19 @@ def process(path)
     File.new(OUTPUT_PATH, "w+")
   end
   output_csv = CSV.open(OUTPUT_PATH, "wb")
-
-  CSV.foreach(path) do |row|
-    output = fetch_fb(*row)
-    output_csv << output
-    delay()
+  count = 0
+  begin
+    CSV.foreach(path) do |row|
+      # count += 1
+      # if count >= 317
+      output = fetch_fb(*row)
+      output_csv << output
+      delay()
+      # end
+    end
+    output_csv.close()
+  rescue
   end
-  output_csv.close()
 
 end
 
@@ -55,11 +61,11 @@ def delay
   random = rand(100)
 
   if random < gate
-    r = rand(10..25)
+    r = rand(10)
     puts "...Delay...#{r}s"
     sleep(r)
   else
-    r = rand(1..5)
+    r = rand(1..3)
     puts "...Delay...#{r}s"
     sleep(r)
   end
