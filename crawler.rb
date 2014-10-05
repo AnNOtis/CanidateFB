@@ -10,6 +10,7 @@ OUTPUT_PATH = "data/#{FILE_NAME}_fb.csv"
 @graph = Koala::Facebook::API.new(ACCESS_TOKEN)
 
 def read(path)
+
   unless File.file?(OUTPUT_PATH)
     File.new(OUTPUT_PATH, "w+")
   end
@@ -37,18 +38,10 @@ def read(path)
       fb_links << "http://www.facebook.com/#{group.id}"
     end
     puts result_groups
+
     output_csv << (row + fb_links)
   end
 
 end
-
-def output(area, user, party, fb_links)
-  CSV.open("path/to/file.csv", "wb") do |csv|
-  csv << ["row", "of", "CSV", "data"]
-  csv << ["another", "row"]
-  end
-end
-
-
 
 read("data/直轄市長.csv")
